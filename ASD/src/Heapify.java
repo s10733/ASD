@@ -249,7 +249,7 @@ public class Heapify {
 		
 	}
 	
-	public static int [] pokolei( int x){
+	public static int [] poKolei( int x){
 	
 			
 			int [] A = new int [x];
