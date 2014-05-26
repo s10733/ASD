@@ -1,93 +1,73 @@
-import java.util.Arrays;
-import java.util.Random;
+// This program implements the merge sort algorithm for
+// arrays of integers.
 
+import java.util.*;
 
 public class MergeSort {
-	
-	public static void main(String[] args) {
-	/*	//tablica od 0 do x
-		int x=1000000;
-		int [] A = new int [x];
-		for (int i=0;i<x;i++){
-			A[i]=i;
-		}
-	
-		//losowa tablica
-	
-			int x= 1000000;
-				int [] A = new int[x];
-				Random rand = new Random();
-				for(int j=0;j<x;j++){
-					A[j]= rand.nextInt(x);
-				
-				}
-				*/	
-		 // tablica od x do 1 - nagorsza
-		int x= 1000000;
-		int i=0;
-		int [] A = new int[x];
-		for (int j=x; j>0;j--){
-			A[i] = j;
-			i++;
-		}
-	
-		long start= System.currentTimeMillis();	
-	//	System.out.println("Przed: "+ Arrays.toString(A));
-	mergeSort(A);
-	//System.out.println("Po: "+ Arrays.toString(A));
-	long stop = System.currentTimeMillis();
-	 System.out.println("Czas dzia³ania:"+ (stop-start));
-	}
-	
-	
-	public static int[] left(int [] A){
-		int p = A.length/2;
-		int [] left = new int[p];
-		for (int i=0; i<p;i++){
-			left[i] = A[i];
-		}
-		return left;
-	}
-	
-	public static int[] right(int [] A ){
-		int p = A.length/2;
-		int r = A.length -p;
-		int [] right = new int [r];
-		for(int i=0; i<r;i++){
-			right[i] = A[i+p];
-		}
-		return right;
-	}
-	
-	
-	public static void mergeSort(int A[]){
-		if (A.length>1){
-			
-			int [] lewaPolowa = left(A);
-			int [] prawaPolowa = right(A);
-			
-			
-			mergeSort(lewaPolowa);
-			mergeSort(prawaPolowa);
-			merge(A,lewaPolowa,prawaPolowa);
-		}
-		
-	}
+    public static void main(String[] args) {
+        int[] list = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+        System.out.println("before: " + Arrays.toString(list));
+        mergeSort(list);
+        System.out.println("after:  " + Arrays.toString(list));
+    }
 
-	public static void merge(int[] B, int[] lewaPolowa, int[] prawaPolowa){
-		int j = 0;	
-		int k= 0;
-		for(int i =0; i<B.length; i++){	
-		if(k >= prawaPolowa.length || (j < lewaPolowa.length && lewaPolowa[j] <=prawaPolowa[k])){
-			B[i]=lewaPolowa[j];
-			j++;
-		 }
-		else
-		{
-			B[i]=prawaPolowa[k];
-			k++;
-		}
-		}
-	}
-	
-}
+    // Places the elements of the given array into sorted order
+    // using the merge sort algorithm.
+    // post: array is in sorted (nondecreasing) order
+    public static void mergeSort(int[] array) {
+        if (array.length > 1) {
+            // split array into two halves
+            int[] left = leftHalf(array);
+            int[] right = rightHalf(array);
+            
+            // recursively sort the two halves
+            mergeSort(left);
+            mergeSort(right);
+            
+            // merge the sorted halves into a sorted whole
+            merge(array, left, right);
+        }
+    }
+    
+    // Returns the first half of the given array.
+    public static int[] leftHalf(int[] array) {
+        int size1 = array.length / 2;
+        int[] left = new int[size1];
+        for (int i = 0; i < size1; i++) {
+            left[i] = array[i];
+        }
+        return left;
+    }
+    
+    // Returns the second half of the given array.
+    public static int[] rightHalf(int[] array) {
+        int size1 = array.length / 2;
+        int size2 = array.length - size1;
+        int[] right = new int[size2];
+        for (int i = 0; i < size2; i++) {
+            right[i] = array[i + size1];
+        }
+        return right;
+    }
+    
+    // Merges the given left and right arrays into the given 
+    // result array.  Second, working version.
+    // pre : result is empty; left/right are sorted
+    // post: result contains result of merging sorted lists;
+    public static void merge(int[] result, 
+                             int[] left, int[] right) {
+        int i1 = 0;   // index into left array
+        int i2 = 0;   // index into right array
+        
+        for (int i = 0; i < result.length; i++) {
+            if (i2 >= right.length || (i1 < left.length && 
+                    left[i1] <= right[i2])) {
+                result[i] = left[i1];    // take from left
+                i1++;
+            } else {
+                result[i] = right[i2];   // take from right
+                i2++;
+            }
+        }
+    }
+ }
